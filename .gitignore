@@ -2,3 +2,5 @@
 env
 db.sqlite3
 config/__pycache__
+apps/polls/__pycache__
+apps/polls/migrations/__pycache__
