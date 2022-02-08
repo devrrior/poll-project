@@ -5,3 +5,5 @@ config/__pycache__
 apps/polls/__pycache__
 apps/polls/migrations/__pycache__
 poll_posgres
+apps/users/__pycache__
+apps/users/migrations/__pycache__
