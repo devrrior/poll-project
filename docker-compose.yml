@@ -3,21 +3,21 @@ version: '3.9'
 services:
   web:
     build: .
-    container_name: poll_django
     command: python manage.py runserver 0.0.0.0:8000
     ports: 
       - 8000:8000
     volumes:
       - .:/usr/src/app
     depends_on:
-      - poll_db
+      - db
 
-  database:
+  db:
     image: postgres:14.1-alpine3.15
-    container_name: poll_db
     env_file: ./.env
     volumes:
-      - ./poll_posgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5431:5432
 
+volumes:
+  postgres_data:
