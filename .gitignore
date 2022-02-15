@@ -7,3 +7,4 @@ apps/polls/migrations/__pycache__
 poll_posgres
 apps/users/__pycache__
 apps/users/migrations/__pycache__
+apps/users/migrations
