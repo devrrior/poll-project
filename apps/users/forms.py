@@ -4,10 +4,12 @@ from django.contrib.auth import authenticate
 class LoginForm(forms.Form):
     email = forms.EmailField(
         widget=forms.TextInput(
-            attrs={'class': 'form-control form-control-lg',}))
+            attrs={'class': 'form-control form-control-lg',
+                    'placeholder': 'Enter a valid email address'}))
     password = forms.CharField(
         widget=forms.PasswordInput(
-           attrs={'class': 'form-control form-control-lg',}))
+            attrs={'class': 'form-control form-control-lg',
+                    'placeholder': 'Enter password'}))
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request") # store value of request 
