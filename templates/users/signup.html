@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+  <script src="{% static 'js/mdb.min.js' %}"></script>
+  <title>SingUp</title>
+</head>
+
+<body>
+  <section class="vh-100" style="background-color: #eee;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+          <div class="card text-black" style="border-radius: 25px;">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                  <form method="POST" action="" class="mx-1 mx-md-4">
+
+                    {% csrf_token %}
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0 me-2">
+                        {{ form.first_name }}
+                        <label class="form-label" for="{{ form.first_name.id }}">{{ form.first_name.label }}</label>
+                        <div class="form-notch">
+                          <div class="form-notch-leading" style="width: 9px;"></div>
+                          <div class="form-notch-middle" style="width: 71.2px;"></div>
+                          <div class="form-notch-trailing"></div>
+                        </div>
+                      </div>
+                      <div class="form-outline flex-fill mb-0">
+                        {{ form.last_name }}
+                        <label class="form-label" for="{{ form.last_name.id }}">{{ form.last_name.label }}</label>
+                        <div class="form-notch">
+                          <div class="form-notch-leading" style="width: 9px;"></div>
+                          <div class="form-notch-middle" style="width: 71.2px;"></div>
+                          <div class="form-notch-trailing"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        {{ form.email}}
+                        <label class="form-label" for="{{ form.email.id }}">{{ form.email.label }}</label>
+                        <div class="form-notch">
+                          <div class="form-notch-leading" style="width: 9px;"></div>
+                          <div class="form-notch-middle" style="width: 71.2px;"></div>
+                          <div class="form-notch-trailing"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        {{ form.password1 }}
+                        <label class="form-label" for="{{ form.password1.id }}">{{ form.password1.label }}</label>
+                        <div class="form-notch">
+                          <div class="form-notch-leading" style="width: 9px;"></div>
+                          <div class="form-notch-middle" style="width: 71.2px;"></div>
+                          <div class="form-notch-trailing"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        {{ form.password2 }}
+                        <label class="form-label" for="{{ form.password2.id }}">{{ form.password2.label }}</label>
+                        <div class="form-notch">
+                          <div class="form-notch-leading" style="width: 9px;"></div>
+                          <div class="form-notch-middle" style="width: 71.2px;"></div>
+                          <div class="form-notch-trailing"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {% if form.errors %}
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="form-check d-flex justify-content-center mb-5">
+                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
+                      <label class="form-check-label" for="form2Example3">
+                        I agree all statements in <a href="#!">Terms of service</a>
+                      </label>
+                    </div>
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                      <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                    </div>
+
+                  </form>
+
+                </div>
+                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                    class="img-fluid" alt="Sample image">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+<script src="https://kit.fontawesome.com/f1e5b7ad8f.js" crossorigin="anonymous"></script>
+
+</html>

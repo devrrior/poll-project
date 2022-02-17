@@ -1,10 +1,13 @@
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth import login
+from django.contrib import messages
 
-from apps.users.forms import LoginForm
+from apps.users.forms import LoginForm, RegisterForm
+from apps.users.models import User
+
 
 class LoginView(FormView):
     template_name = 'users/login.html'
@@ -25,6 +28,17 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
+        return super().form_valid(form)
+
+
+class SignUpView(CreateView):
+    model = User
+    form_class = RegisterForm
+    template_name = 'users/signup.html'
+    success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Account Created successfully')
         return super().form_valid(form)
 
 
