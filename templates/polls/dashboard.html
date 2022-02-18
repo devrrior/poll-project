@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard - Poll App{% endblock title %}
+{% block content %}
+<div class="container-fluid">
+</div>
+<div class="d-flex flex-row-reverse me-3 mt-3">
+	<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#pollForm">Create
+		Poll</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="pollForm" tabindex="-1"  aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Title Poll</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+      <form action="" method="POST">
+        <div class="modal-body">
+            {% csrf_token %}
+            {{ form.name.errors }}
+            {{ form.name }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="title-btn" data-bs-dismiss="modal">Add Poll</button>
+        </div>
+      </form>
+		</div>
+	</div>
+</div>
+
+
+<div class="row m-5">
+{% for poll in object_list %}
+	<div class="col-lg-3 col-sm-6">
+		<div class="card">
+			<img src="{% static '/images/social-polls.png' %}" class="card-img-top" alt="...">
+			<div class="card-body">
+        <h5 class="card-title">{{ poll.name }}</h5>
+        <p class="card-text">Code: {{ poll.code }}<br>Date: {{ poll.created_at | date:"D d M, o" }}</p>
+				<a href="#" class="btn btn-primary">Share</a>
+				<a href="#" class="btn btn-secondary">Edit</a>
+        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ poll.id }}">Delete</button>
+			</div>
+		</div>
+	</div>
+
+  <!-- modal para eliminar poll -->
+  <div class="modal fade" id="modal-delete-{{ poll.id }}" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Poll</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST" action="/polls/delete/{{ poll.id }}">
+          {% csrf_token %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger" id="title-btn" data-bs-dismiss="modal">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock content %}
