@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Edit Poll - Poll App{% endblock title %}
+{% block content %}
+<div class="container-fluid">
+  <h1 class="text-center my-5">{{ object.name }}</h1>
+  <div class="d-flex flex-row-reverse me-3 mt-3 mb-3">
+    <a href="{% url 'questions:new' %}" class="btn btn-success">New Question</a>
+  </div>
+  <div class="px-4">
+    {% for question in object.question_set.all %}
+    <div class="card mb-4">
+      <div class="card-header">
+        Question #{{ forloop.counter }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ question.question }}</h5>
+        <p class="card-text">
+        <ul>
+          {% for answer in question.answer_set.all %}
+          <li>{{ answer.answer }}</li>
+          {% endfor %}
+        </ul>
+        </p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}
