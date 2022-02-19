@@ -1,14 +1,14 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
-from apps.polls.models import Poll
-from apps.questions.forms import QuestionCreateForm
 
-from apps.questions.models import Answer, Question
+from apps.poll.models import Poll
+from .forms import QuestionCreateForm
+from .models import Answer, Question
 
 
 class QuestionCreateView(FormView):
     form_class = QuestionCreateForm
-    template_name = 'questions/new.html'
+    template_name = 'question/new.html'
 
     def form_valid(self, form):
         # Get dato from form
@@ -25,7 +25,7 @@ class QuestionCreateView(FormView):
 
         # Set url
         self.success_url = reverse_lazy(
-            'polls:edit', kwargs={'pk': self.request.session.get('poll_id')}
+            'poll:edit', kwargs={'pk': self.request.session.get('poll_id')}
         )
 
         # Delete session
@@ -53,3 +53,4 @@ class QuestionEditView(FormView):
         initial['answer2']
         initial['answer3']
         return super().get_initial()
+

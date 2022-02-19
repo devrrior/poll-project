@@ -5,14 +5,14 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
-from apps.users.forms import LoginForm, RegisterForm
-from apps.users.models import User
+from .forms import LoginForm, RegisterForm
+from .models import User
 
 
 class LoginView(FormView):
-    template_name = 'users/login.html'
+    template_name = 'user/login.html'
     form_class = LoginForm
-    success_url = reverse_lazy('polls:dashboard')
+    success_url = reverse_lazy('poll:dashboard')
 
     # Pass request for validate my user
     def get_form_kwargs(self):
@@ -34,7 +34,7 @@ class LoginView(FormView):
 class SignUpView(CreateView):
     model = User
     form_class = RegisterForm
-    template_name = 'users/signup.html'
+    template_name = 'user/signup.html'
     success_url = reverse_lazy('login')
 
     def get_success_url(self):
@@ -52,4 +52,5 @@ class SignUpView(CreateView):
 
 
 class HomeView(TemplateView):
-    template_name = 'users/home.html'
+    template_name = 'user/home.html'
+
