@@ -4,7 +4,7 @@
 <div class="container-fluid">
   <h1 class="text-center my-5">{{ object.name }}</h1>
   <div class="d-flex flex-row-reverse me-3 mt-3 mb-3">
-    <a href="{% url 'questions:new' %}" class="btn btn-success">New Question</a>
+    <a href="{% url 'question:new' %}" class="btn btn-success">New Question</a>
   </div>
   <div class="px-4">
     {% for question in object.question_set.all %}
