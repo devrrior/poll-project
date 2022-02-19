@@ -3,13 +3,13 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.users.views import LoginView, SignUpView
+from apps.user.views import LoginView, SignUpView
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('user/', include('apps.users.urls')),
-    path('poll/', include('apps.polls.urls')),
-    path('question/', include('apps.questions.urls')),
+    path('user/', include('apps.user.urls')),
+    path('poll/', include('apps.poll.urls')),
+    path('question/', include('apps.question.urls')),
     path('login/', LoginView.as_view(),name = 'login'),
     path('signup/', SignUpView.as_view(),name = 'signup'),
     path('logout/', LogoutView.as_view(), name = 'logout'),
