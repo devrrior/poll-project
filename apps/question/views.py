@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
@@ -6,7 +7,7 @@ from .forms import QuestionCreateForm
 from .models import Answer, Question
 
 
-class QuestionCreateView(FormView):
+class QuestionCreateView(LoginRequiredMixin, FormView):
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
 
@@ -42,15 +43,44 @@ class QuestionCreateView(FormView):
 
         return super().form_valid(form)
 
+
 class QuestionEditView(FormView):
     form_class = QuestionCreateForm
-    template_name = 'question/edit.html'
+    template_name = 'question/new.html'
 
     def get_initial(self, *args, **kwargs):
         initial = super().get_initial(**kwargs)
-        initial['question']
-        initial['answer1']
-        initial['answer2']
-        initial['answer3']
-        return super().get_initial()
+        id = self.kwargs.get('pk')
+        question_object = Question.objects.get(id=id)
+        initial['question'] = question_object.question
+        i = 0
+        for answer_object in question_object.answer_set.all():
+            i += 1
+            initial[f'answer{i}'] = answer_object.answer
+            initial[f'answer{i}'] = answer_object.answer
+            initial[f'answer{i}'] = answer_object.answer
+        return initial
 
+    def form_valid(self, form):
+        id = self.kwargs.get('pk')
+        question = form.cleaned_data['question']
+        answers = {
+            'answer1': form.cleaned_data['answer1'],
+            'answer2': form.cleaned_data['answer2'],
+            'answer3': form.cleaned_data['answer3'],
+        }
+
+        i = 0
+        question_object = Question.objects.get(id=id)
+        question_object.question = question
+        question_object.save()
+        for answer_object in question_object.answer_set.all():
+            i += 1
+            answer_object.answer = answers[f'answer{i}']
+            answer_object.save()
+
+        self.success_url = reverse_lazy(
+            'poll:edit', kwargs={'pk': self.request.session.get('poll_id')}
+        )
+
+        return super().form_valid(form)
