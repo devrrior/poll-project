@@ -44,7 +44,27 @@
       <div class="card-body">
         <h5 class="card-title">{{ poll.name }}</h5>
         <p class="card-text">Code: {{ poll.code }}<br>Date: {{ poll.created_at | date:"D d M, o" }}</p>
-        <a href="#" class="btn btn-primary">Share</a>
+        <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#modal-share-{{ poll.id }}">Share</button>
+        <!-- Modal -->
+        <div class="modal fade" id="modal-share-{{ poll.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Copy the link and share with your friends :)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>http://127.0.0.1:8000{% url 'vote' %}?code={{ poll.code }}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'vote' %}?code={{ poll.code }}" target="_blank" class="btn btn-primary">Open link</a>
+              </div>
+            </div>
+          </div>
+        </div>
         <a href="{% url 'poll:edit' poll.id %}" class="btn btn-secondary">Edit</a>
         <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
           data-bs-target="#modal-delete-{{ poll.id }}">Delete</button>
