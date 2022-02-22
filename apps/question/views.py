@@ -44,7 +44,7 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class QuestionEditView(FormView):
+class QuestionEditView(LoginRequiredMixin, FormView):
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
 

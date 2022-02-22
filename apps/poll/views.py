@@ -39,12 +39,11 @@ class PollDeleteView(LoginRequiredMixin, DeleteView):
     model = Poll
     success_url = reverse_lazy('poll:dashboard')
 
-class PollPublishView(View):
+class PollPublishView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         id = self.kwargs.get('pk')
         next = request.GET.get('next', '/')
         poll_object = Poll.objects.get(id=id)
         poll_object.status = 'published'
         poll_object.save()
-        print('todo ok')
         return HttpResponseRedirect(next)
