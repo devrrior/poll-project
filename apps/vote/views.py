@@ -20,9 +20,15 @@ class VotePollView(FormView):
         kwargs = super().get_form_kwargs()
         poll_code = self.request.GET.get('code', '')
 
-        try:
-            questions = Poll.objects.get(code=poll_code).question_set.all()
-        except Poll.DoesNotExist:
+        # try:
+        #     questions = Poll.objects.get(code=poll_code).question_set.all()
+        # except Poll.DoesNotExist:
+        #     questions = None
+
+        if 'code' in self.request.GET:
+            poll_object = get_object_or_404(Poll, code=poll_code)
+            questions = poll_object.question_set.all()
+        else:
             questions = None
 
         kwargs.update({'questions': questions})
