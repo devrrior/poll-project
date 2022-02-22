@@ -12,6 +12,7 @@
 
 <body>
   {% if 'code' in request.GET %}
+  {% if user.is_authenticated %}
   <nav class="navbar navbar-dark bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url 'poll:dashboard' %}">Poll App</a>
@@ -21,6 +22,7 @@
       </div>
     </div>
   </nav>
+  {% endif %}
   <div class="m-5">
     {{ request.GET.code }}
     <h1>Poll - {{ poll_titulo }}</h1>
@@ -43,8 +45,8 @@
       <h2 class="text-center my-4">Forms</h2>
       <div class="form-group">
         <form action="{% url 'vote' %}" method="GET">
-        <input class="form-control my-4" type="text" placeholder="Form Code" name="code">
-        <button type="submit" class="btn btn-success col-12">Enter</button>
+          <input class="form-control my-4" type="text" placeholder="Form Code" name="code">
+          <button type="submit" class="btn btn-success col-12">Enter</button>
         </form>
       </div>
     </div>
