@@ -6,10 +6,13 @@
     <div>
       <h1 class="d-inline-block">{{ object.name }}</h1>
     </div>
+    {% if object.status == "draft" %}
     <div>
       <a href="{% url 'question:new' %}" class="btn btn-primary">New Question</a>
-      <a href="{% url 'poll:publish' pk=object.id %}?next={{ request.path | urlencode }}" class="btn btn-success">Publish Poll</a>
+      <a href="{% url 'poll:publish' pk=object.id %}?next={{ request.path | urlencode }}"
+        class="btn btn-success">Publish Poll</a>
     </div>
+    {% endif %}
   </div>
   <div class="px-4">
     {% for question in object.question_set.all %}
@@ -26,7 +29,9 @@
           {% endfor %}
         </ul>
         </p>
+        {% if object.status == "draft" %}
         <a href="{% url 'question:edit' question.id %}" class="btn btn-secondary">Edit</a>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
