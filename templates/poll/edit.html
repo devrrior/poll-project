@@ -8,7 +8,7 @@
     </div>
     {% if object.status == "draft" %}
     <div>
-      <a href="{% url 'question:new' %}" class="btn btn-primary">New Question</a>
+      <a href="{% url 'question:new' %}?poll_id={{ object.id }}" class="btn btn-primary">New Question</a>
       <a href="{% url 'poll:publish' pk=object.id %}?next={{ request.path | urlencode }}"
         class="btn btn-success">Publish Poll</a>
     </div>
@@ -31,8 +31,7 @@
         </p>
         {% if object.status == "draft" %}
         <a href="{% url 'question:edit' question.id %}" class="btn btn-secondary">Edit</a>
-        <a class="btn btn-danger" data-bs-toggle="modal"
-          data-bs-target="#modal-delete-{{ question.id }}">Remove</a>
+        <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ question.id }}">Remove</a>
         {% endif %}
 
         <!-- modal para eliminar poll -->
@@ -54,6 +53,11 @@
           </div>
         </div>
       </div>
+    </div>
+
+    {% empty %}
+    <div class="m-5">
+      <h5>You don't have questions :(</h5>
     </div>
     {% endfor %}
   </div>

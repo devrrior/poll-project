@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, FormView
 
@@ -7,10 +8,16 @@ from apps.question.mixins import QuestionPermissionMixin
 from .forms import QuestionCreateForm
 from .models import Answer, Question
 
-# TODO change the way to add poll's id, send id by queryparams
 class QuestionCreateView(LoginRequiredMixin, FormView):
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not 'poll_id' in request.GET or request.GET.get('poll_id') == '':
+            print('no tienes lo necesario')
+            return redirect(reverse_lazy('poll:dashboard'))
+        
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         # Get dato from form
@@ -22,19 +29,19 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
         ]
 
         # Get poll object
-        poll_id = self.request.session.get('poll_id')
-        poll = Poll.objects.get(id=poll_id)
+        poll_id = self.request.GET.get('poll_id', '')
+        poll_object = Poll.objects.get(id=poll_id)
 
         # Set url
         self.success_url = reverse_lazy(
-            'poll:edit', kwargs={'pk': self.request.session.get('poll_id')}
+            'poll:edit', kwargs={'pk': poll_id}
         )
 
         # Delete session
-        del self.request.session['poll_id']
+        # del self.request.session['poll_id']
 
         # Create question
-        question = Question.objects.create(question=question, poll=poll)
+        question = Question.objects.create(question=question, poll=poll_object)
         question.save()
 
         # Create answers
