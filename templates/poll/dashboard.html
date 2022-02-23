@@ -66,8 +66,8 @@
           </div>
         </div>
         <a href="{% url 'poll:edit' poll.id %}" class="btn btn-secondary">Edit</a>
-        <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
-          data-bs-target="#modal-delete-{{ poll.id }}">Delete</button>
+        <a class="btn btn-danger" data-bs-toggle="modal"
+          data-bs-target="#modal-delete-{{ poll.id }}">Delete</a>
       </div>
     </div>
   </div>
