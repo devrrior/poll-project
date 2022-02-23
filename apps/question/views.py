@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
+from django.views.generic.edit import DeleteView, FormView
 
 from apps.poll.models import Poll
 from .forms import QuestionCreateForm
 from .models import Answer, Question
 
-
+# TODO change the way to add poll's id, send id by queryparams
 class QuestionCreateView(LoginRequiredMixin, FormView):
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
@@ -84,3 +84,12 @@ class QuestionEditView(LoginRequiredMixin, FormView):
         )
 
         return super().form_valid(form)
+
+
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+    model = Question
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'poll:edit', kwargs={'pk': self.request.session.get('poll_id')}
+        )
