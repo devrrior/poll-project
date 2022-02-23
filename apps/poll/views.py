@@ -17,7 +17,7 @@ class PollCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('poll:dashboard')
 
     def get_context_data(self, **kwargs):
-        kwargs['object_list'] = Poll.objects.all()
+        kwargs['object_list'] = Poll.objects.filter(created_by=self.request.user)
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
