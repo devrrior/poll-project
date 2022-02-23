@@ -1,4 +1,3 @@
-from django.http.response import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
@@ -18,14 +17,9 @@ class VotePollView(FormView):
     # Pass request for validate my user
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        poll_code = self.request.GET.get('code', '')
-
-        # try:
-        #     questions = Poll.objects.get(code=poll_code).question_set.all()
-        # except Poll.DoesNotExist:
-        #     questions = None
 
         if 'code' in self.request.GET:
+            poll_code = self.request.GET.get('code', '')
             poll_object = get_object_or_404(Poll, code=poll_code)
             questions = poll_object.question_set.all()
         else:
