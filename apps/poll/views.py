@@ -5,6 +5,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from apps.poll.mixins import PollPermissionMixin
+
 
 from .forms import PollCreateForm
 from .models import Poll
@@ -25,7 +27,7 @@ class PollCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PollDetailView(LoginRequiredMixin,DetailView):
+class PollDetailView(PollPermissionMixin, LoginRequiredMixin, DetailView):
     model = Poll
     template_name = 'poll/edit.html'
 
@@ -35,11 +37,12 @@ class PollDetailView(LoginRequiredMixin,DetailView):
         return super().get(request, *args, **kwargs)
 
 
-class PollDeleteView(LoginRequiredMixin, DeleteView):
+class PollDeleteView(PollPermissionMixin, LoginRequiredMixin, DeleteView):
     model = Poll
     success_url = reverse_lazy('poll:dashboard')
 
-class PollPublishView(LoginRequiredMixin, View):
+
+class PollPublishView(PollPermissionMixin, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         id = self.kwargs.get('pk')
         next = request.GET.get('next', '/')
