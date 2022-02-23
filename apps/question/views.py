@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, FormView
 
 from apps.poll.models import Poll
+from apps.question.mixins import QuestionPermissionMixin
 from .forms import QuestionCreateForm
 from .models import Answer, Question
 
@@ -44,7 +45,7 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class QuestionEditView(LoginRequiredMixin, FormView):
+class QuestionEditView(QuestionPermissionMixin, LoginRequiredMixin, FormView):
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
 
@@ -86,7 +87,7 @@ class QuestionEditView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+class QuestionDeleteView(QuestionPermissionMixin, LoginRequiredMixin, DeleteView):
     model = Question
 
     def get_success_url(self):
