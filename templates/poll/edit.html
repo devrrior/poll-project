@@ -31,7 +31,28 @@
         </p>
         {% if object.status == "draft" %}
         <a href="{% url 'question:edit' question.id %}" class="btn btn-secondary">Edit</a>
+        <a class="btn btn-danger" data-bs-toggle="modal"
+          data-bs-target="#modal-delete-{{ question.id }}">Remove</a>
         {% endif %}
+
+        <!-- modal para eliminar poll -->
+        <div class="modal fade" id="modal-delete-{{ question.id }}" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Delete Question</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form method="POST" action="{% url 'question:delete' question.id %}">
+                {% csrf_token %}
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-danger" id="title-btn" data-bs-dismiss="modal">Delete</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endfor %}
