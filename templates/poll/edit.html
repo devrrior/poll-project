@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Edit Poll - Poll App{% endblock title %}
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <div class="container-fluid">
   <div class="d-flex justify-content-between m-5">
     <div>
@@ -20,19 +22,24 @@
       <div class="card-header">
         Question #{{ forloop.counter }}
       </div>
-      <div class="card-body">
-        <h5 class="card-title">{{ question.question }}</h5>
-        <p class="card-text">
-        <ul>
-          {% for answer in question.answer_set.all %}
-          <li>{{ answer.answer }}</li>
-          {% endfor %}
-        </ul>
+      <div class="card-body row">
+        <div class="col">
+          <h5 class="card-title">{{ question.question }}</h5>
+          <p class="card-text">
+          <ul>
+            {% for answer in question.answer_set.all %}
+            <li>{{ answer.answer }}</li>
+            {% endfor %}
+          </ul>
+          {% if object.status == "draft" %}
+          <a href="{% url 'question:edit' question.id %}" class="btn btn-secondary">Edit</a>
+          <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ question.id }}">Remove</a>
+          {% endif %}
+        </div>
+        <div class="chartBox" style="width: 200px;">
+          <canvas id="myChart{{question.id}}"></canvas>
+        </div>
         </p>
-        {% if object.status == "draft" %}
-        <a href="{% url 'question:edit' question.id %}" class="btn btn-secondary">Edit</a>
-        <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ question.id }}">Remove</a>
-        {% endif %}
 
         <!-- modal para eliminar poll -->
         <div class="modal fade" id="modal-delete-{{ question.id }}" tabindex="-1" aria-hidden="true">
@@ -62,4 +69,31 @@
     {% endfor %}
   </div>
 </div>
+<script>
+  {% for question in object.question_set.all %}
+  const ctx{{question.id}} = document.getElementById('myChart{{ question.id }}').getContext('2d');
+  const chart{{question.id}} = new Chart(ctx{{question.id}}, {
+    type: 'doughnut',
+    data: {
+      labels: [
+        {% for answer in question.answer_set.all %}
+          '{{ answer.answer }}',
+          {% endfor %}
+          ],
+    datasets: [
+    {
+      label: 'Points',
+      backgroundColor: ['#f1c40f', '#e67e22', '#16a085', '#2980b9'],
+      data: [
+        {% for answer in question.answer_set.all %}
+                {{answer.votes}},
+    {% endfor %}
+  ]
+        }
+      ]
+    },
+  });
+
+  {% endfor %}
+</script>
 {% endblock content %}
