@@ -25,7 +25,7 @@ class VotePollView(FormView):
         else:
             questions = None
 
-        kwargs.update({'questions': questions})
+        kwargs.update({'questions': questions, 'request': self.request })
         return kwargs
 
     def get_context_data(self, **kwargs):

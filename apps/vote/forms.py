@@ -4,6 +4,7 @@ from apps.poll.models import Poll
 
 class VoteForm(forms.Form):
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         questions = kwargs.pop('questions')  # store value of request
         super().__init__(*args, **kwargs)
 
@@ -24,7 +25,6 @@ class VoteForm(forms.Form):
                 )
         
     def clean(self):
-        print('hola')
         poll_code = self.request.GET.get('code', '')
         questions = Poll.objects.get(code=poll_code).question_set.all()
 
