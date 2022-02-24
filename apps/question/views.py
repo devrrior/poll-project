@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, FormView
@@ -13,10 +14,21 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
     template_name = 'question/new.html'
 
     def dispatch(self, request, *args, **kwargs):
+        poll_id = self.request.GET.get('poll_id', '')
         if not 'poll_id' in request.GET or request.GET.get('poll_id') == '':
-            print('no tienes lo necesario')
             return redirect(reverse_lazy('poll:dashboard'))
-        
+
+        try:
+            poll_object = Poll.objects.get(id=poll_id)
+            if poll_object.status == 'published':
+                messages.add_message(request, messages.INFO, 'You can not edit this poll anymore')
+                return redirect(reverse_lazy('poll:edit', kwargs={ 'pk': poll_id }))
+        except Poll.DoesNotExist:
+            messages.add_message(request, messages.INFO, 'Poll does not exist')
+            return redirect(reverse_lazy('poll:dashboard'))
+
+
+
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
