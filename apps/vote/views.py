@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 
@@ -12,7 +13,7 @@ from apps.vote.forms import VoteForm
 class VotePollView(FormView):
     template_name = 'vote/vote.html'
     form_class = VoteForm
-    success_url = reverse_lazy('poll:dashboard')
+    success_url = reverse_lazy('thanks')
 
     # Pass request for validate my user
     def get_form_kwargs(self):
@@ -41,13 +42,5 @@ class VotePollView(FormView):
 
         return context
 
-    # def form_valid(self, form):
-    #     print('pase')
-    #     poll_code = self.request.GET.get('code', '')
-    #     questions = Poll.objects.get(code=poll_code).question_set.all()
-    #
-    #     for question in questions:
-    #         print(form.cleaned_data[question.question])
-    #
-    #     self.success_url = reverse_lazy('poll:dashboard')
-    #     return super().form_valid(form)
+class ThanksTemplateView(TemplateView):
+    template_name = 'vote/thanks.html'
