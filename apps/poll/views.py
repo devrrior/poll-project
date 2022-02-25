@@ -13,6 +13,10 @@ from .models import Poll
 
 
 class PollCreateView(LoginRequiredMixin, CreateView):
+    """
+    A view that shows all polls which belong to the user, also in this view the user can create a Poll
+    """
+
     model = Poll
     form_class = PollCreateForm
     template_name = 'poll/dashboard.html'
@@ -28,6 +32,14 @@ class PollCreateView(LoginRequiredMixin, CreateView):
 
 
 class PollDetailView(PollPermissionMixin, LoginRequiredMixin, DetailView):
+    """
+    A view that shows attributes of a Poll, here the user can do the following:
+    - Create Question
+    - Publish Poll
+    - Edit Question
+
+    Also if the poll is published, the user can see a graphic per question
+    """
     model = Poll
     template_name = 'poll/edit.html'
 
@@ -38,11 +50,17 @@ class PollDetailView(PollPermissionMixin, LoginRequiredMixin, DetailView):
 
 
 class PollDeleteView(PollPermissionMixin, LoginRequiredMixin, DeleteView):
+    """
+    A view that deletes a Poll
+    """
     model = Poll
     success_url = reverse_lazy('poll:dashboard')
 
 
 class PollPublishView(PollPermissionMixin, LoginRequiredMixin, View):
+    """
+    A view that publis a Poll
+    """
     def get(self, request, *args, **kwargs):
         id = self.kwargs.get('pk')
         next = request.GET.get('next', '/')

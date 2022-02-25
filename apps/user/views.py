@@ -10,6 +10,9 @@ from .models import User
 
 
 class LoginView(FormView):
+    """
+    A view where the user can login
+    """
     template_name = 'user/login.html'
     form_class = LoginForm
     success_url = reverse_lazy('poll:dashboard')
@@ -32,6 +35,9 @@ class LoginView(FormView):
 
 
 class SignUpView(CreateView):
+    """
+    A view where the user can create a account
+    """
     model = User
     form_class = RegisterForm
     template_name = 'user/signup.html'

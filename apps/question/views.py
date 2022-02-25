@@ -9,7 +9,12 @@ from apps.question.mixins import QuestionPermissionMixin
 from .forms import QuestionCreateForm
 from .models import Answer, Question
 
+
 class QuestionCreateView(LoginRequiredMixin, FormView):
+    """
+    A view that creates a question, this view need a valid for create the question
+    """
+
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
 
@@ -21,13 +26,13 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
         try:
             poll_object = Poll.objects.get(id=poll_id)
             if poll_object.status == 'published':
-                messages.add_message(request, messages.INFO, 'You can not edit this poll anymore')
-                return redirect(reverse_lazy('poll:edit', kwargs={ 'pk': poll_id }))
+                messages.add_message(
+                    request, messages.INFO, 'You can not edit this poll anymore'
+                )
+                return redirect(reverse_lazy('poll:edit', kwargs={'pk': poll_id}))
         except Poll.DoesNotExist:
             messages.add_message(request, messages.INFO, 'Poll does not exist')
             return redirect(reverse_lazy('poll:dashboard'))
-
-
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -45,9 +50,7 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
         poll_object = Poll.objects.get(id=poll_id)
 
         # Set url
-        self.success_url = reverse_lazy(
-            'poll:edit', kwargs={'pk': poll_id}
-        )
+        self.success_url = reverse_lazy('poll:edit', kwargs={'pk': poll_id})
 
         # Delete session
         # del self.request.session['poll_id']
@@ -65,6 +68,9 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
 
 
 class QuestionEditView(QuestionPermissionMixin, LoginRequiredMixin, FormView):
+    """
+    A view that edits a question
+    """
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
 
@@ -107,6 +113,9 @@ class QuestionEditView(QuestionPermissionMixin, LoginRequiredMixin, FormView):
 
 
 class QuestionDeleteView(QuestionPermissionMixin, LoginRequiredMixin, DeleteView):
+    """
+    A view that deletes a question
+    """
     model = Question
 
     def get_success_url(self):

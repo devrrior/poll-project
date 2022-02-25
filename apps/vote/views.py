@@ -4,13 +4,14 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 
-# from django.views.generic.edit import FormView
-
 from apps.poll.models import Poll
 from apps.vote.forms import VoteForm
 
 
 class VotePollView(FormView):
+    """
+    A view where the user can pass the poll's code and then the user can answer the poll
+    """
     template_name = 'vote/vote.html'
     form_class = VoteForm
     success_url = reverse_lazy('thanks')
@@ -26,7 +27,7 @@ class VotePollView(FormView):
         else:
             questions = None
 
-        kwargs.update({'questions': questions, 'request': self.request })
+        kwargs.update({'questions': questions, 'request': self.request})
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -42,5 +43,9 @@ class VotePollView(FormView):
 
         return context
 
+
 class ThanksTemplateView(TemplateView):
+    """
+    A view that show a thank you message to the user
+    """
     template_name = 'vote/thanks.html'
