@@ -102,7 +102,7 @@ class QuestionEditView(QuestionPermissionMixin, LoginRequiredMixin, FormView):
             answer_object.save()
 
         self.success_url = reverse_lazy(
-            'poll:edit', kwargs={'pk': self.request.session.get('poll_id')}
+            'poll:edit', kwargs={'pk': question_object.poll.id}
         )
 
         return super().form_valid(form)
