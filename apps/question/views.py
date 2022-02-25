@@ -19,9 +19,11 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
     template_name = 'question/new.html'
 
     def dispatch(self, request, *args, **kwargs):
+        # Check if the poll id was given, if not the user is redirect
         if not 'poll_id' in request.GET or request.GET.get('poll_id') == '':
             return redirect(reverse_lazy('poll:dashboard'))
 
+        # Check if the poll exists, if not the user is redirect
         try:
             poll_id = self.request.GET.get('poll_id', '')
             poll_object = Poll.objects.get(id=poll_id)
@@ -37,7 +39,7 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        # Get dato from form
+        # Get data from form
         question = form.cleaned_data['question']
         answers = [
             form.cleaned_data['answer1'],
@@ -51,9 +53,6 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
 
         # Set url
         self.success_url = reverse_lazy('poll:edit', kwargs={'pk': poll_id})
-
-        # Delete session
-        # del self.request.session['poll_id']
 
         # Create question
         question = Question.objects.create(question=question, poll=poll_object)
@@ -71,6 +70,7 @@ class QuestionEditView(QuestionPermissionMixin, LoginRequiredMixin, FormView):
     """
     A view that edits a question
     """
+
     form_class = QuestionCreateForm
     template_name = 'question/new.html'
 
@@ -116,6 +116,7 @@ class QuestionDeleteView(QuestionPermissionMixin, LoginRequiredMixin, DeleteView
     """
     A view that deletes a question
     """
+
     model = Question
 
     def get_success_url(self):
