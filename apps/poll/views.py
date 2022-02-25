@@ -27,7 +27,10 @@ class PollCreateView(LoginRequiredMixin, CreateView):
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        # Set author to poll
+        poll_object = form.save(commit=False)
+        poll_object.created_by = self.request.user
+        poll_object.save()
         return super().form_valid(form)
 
 
