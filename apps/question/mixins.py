@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 
@@ -12,10 +12,18 @@ class QuestionPermissionMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         id = self.kwargs.get('pk')
-        if self.request.user != Question.objects.get(id=id).poll.created_by:
-            print('no te pertenece estooo!')
+        question_object = get_object_or_404(Question, id=id)
+        if self.request.user != question_object.poll.created_by:
             messages.add_message(
                 request, messages.INFO, 'This question does not belong to you'
             )
             return redirect(reverse_lazy('poll:dashboard'))
+
+        if question_object.poll.status == 'published':
+            messages.add_message(
+                request, messages.INFO, 'You can not edit this poll anymore'
+            )
+            return redirect(
+                reverse_lazy('poll:edit', kwargs={'pk': question_object.poll.id})
+            )
         return super().dispatch(request, *args, **kwargs)
