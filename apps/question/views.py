@@ -79,9 +79,7 @@ class QuestionEditView(QuestionPermissionMixin, LoginRequiredMixin, FormView):
         id = self.kwargs.get('pk')
         question_object = Question.objects.get(id=id)
         initial['question'] = question_object.question
-        i = 0
-        for answer_object in question_object.answer_set.all():
-            i += 1
+        for i, answer_object in enumerate(question_object.answer_set.all(), start=1):
             initial[f'answer{i}'] = answer_object.answer
             initial[f'answer{i}'] = answer_object.answer
             initial[f'answer{i}'] = answer_object.answer
@@ -96,12 +94,10 @@ class QuestionEditView(QuestionPermissionMixin, LoginRequiredMixin, FormView):
             'answer3': form.cleaned_data['answer3'],
         }
 
-        i = 0
         question_object = Question.objects.get(id=id)
         question_object.question = question
         question_object.save()
-        for answer_object in question_object.answer_set.all():
-            i += 1
+        for i, answer_object in enumerate(question_object.answer_set.all(), start=1):
             answer_object.answer = answers[f'answer{i}']
             answer_object.save()
 
