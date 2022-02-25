@@ -1,4 +1,4 @@
-from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
@@ -65,7 +65,11 @@ class PollPublishView(PollPermissionMixin, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         id = self.kwargs.get('pk')
         next = request.GET.get('next', '/')
-        poll_object = Poll.objects.get(id=id)
+
+        if not 'next' in request.GET:
+            redirect(reverse_lazy('poll:edit', kwargs={'pk': id}))
+
+        poll_object = get_object_or_404(Poll, id=id)
         poll_object.status = 'published'
         poll_object.save()
-        return HttpResponseRedirect(next)
+        return redirect(next)
