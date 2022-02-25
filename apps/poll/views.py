@@ -43,19 +43,16 @@ class PollDetailView(PollPermissionMixin, LoginRequiredMixin, DetailView):
 
     Also if the poll is published, the user can see a graphic per question
     """
+
     model = Poll
     template_name = 'poll/edit.html'
-
-    def get(self, request, *args, **kwargs):
-        id = self.kwargs.get('pk')
-        request.session['poll_id'] = id
-        return super().get(request, *args, **kwargs)
 
 
 class PollDeleteView(PollPermissionMixin, LoginRequiredMixin, DeleteView):
     """
     A view that deletes a Poll
     """
+
     model = Poll
     success_url = reverse_lazy('poll:dashboard')
 
@@ -64,6 +61,7 @@ class PollPublishView(PollPermissionMixin, LoginRequiredMixin, View):
     """
     A view that publis a Poll
     """
+
     def get(self, request, *args, **kwargs):
         id = self.kwargs.get('pk')
         next = request.GET.get('next', '/')
