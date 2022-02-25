@@ -19,11 +19,11 @@ class QuestionCreateView(LoginRequiredMixin, FormView):
     template_name = 'question/new.html'
 
     def dispatch(self, request, *args, **kwargs):
-        poll_id = self.request.GET.get('poll_id', '')
         if not 'poll_id' in request.GET or request.GET.get('poll_id') == '':
             return redirect(reverse_lazy('poll:dashboard'))
 
         try:
+            poll_id = self.request.GET.get('poll_id', '')
             poll_object = Poll.objects.get(id=poll_id)
             if poll_object.status == 'published':
                 messages.add_message(
