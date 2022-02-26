@@ -10,7 +10,6 @@ RUN  apk update \
 
 COPY . .
 
-RUN  python manage.py migrate \
-  && python manage.py collectstatic --noinput
+RUN  python manage.py collectstatic --noinput
 
 CMD gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
