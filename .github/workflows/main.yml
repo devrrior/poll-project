@@ -25,3 +25,4 @@ jobs:
           HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
           HD_DJANGO_SUPERUSER_EMAIL: ${{secrets.DJANGO_SUPERUSER_EMAIL}}
           HD_DJANGO_SUPERUSER_PASSWORD: ${{secrets.DJANGO_SUPERUSER_PASSWORD}}
+          HD_ALLOWED_HOSTS: ${{secrets.ALLOWED_HOSTS}}
