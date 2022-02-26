@@ -17,11 +17,11 @@ jobs:
           heroku_email: "devrrior@gmail.com"
           usedocker: true
         env:
-          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
-          POSTGRES_USER: ${{secrets.POSTGRES_USER}}
-          POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
-          DB_HOST: ${{secrets.DB_HOST}}
-          DB_PORT: ${{secrets.DB_PORT}}
-          SECRET_KEY: ${{secrets.SECRET_KEY}}
-          DJANGO_SUPERUSER_EMAIL: ${{secrets.DJANGO_SUPERUSER_EMAIL}}
-          DJANGO_SUPERUSER_PASSWORD: ${{secrets.DJANGO_SUPERUSER_PASSWORD}}
+          HD_POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+          HD_POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+          HD_POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+          HD_DB_HOST: ${{secrets.DB_HOST}}
+          HD_DB_PORT: ${{secrets.DB_PORT}}
+          HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
+          HD_DJANGO_SUPERUSER_EMAIL: ${{secrets.DJANGO_SUPERUSER_EMAIL}}
+          HD_DJANGO_SUPERUSER_PASSWORD: ${{secrets.DJANGO_SUPERUSER_PASSWORD}}
