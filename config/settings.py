@@ -13,7 +13,7 @@ ALLOWED_HOSTS.extend(
     )
 )
 
-CSRF_TRUSTED_ORIGINS = ['django-poll-app1.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://django-poll-app1.herokuapp.com/']
 
 DATABASES = {
     'default': {
