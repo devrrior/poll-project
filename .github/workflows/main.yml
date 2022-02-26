@@ -15,5 +15,13 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "django-poll-app1" #Must be unique in Heroku
           heroku_email: "devrrior@gmail.com"
-          env_file: ".env"
           usedocker: true
+        env:
+          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+          POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+          POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+          DB_HOST: ${{secrets.DB_HOST}}
+          DB_PORT: ${{secrets.DB_PORT}}
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
+          DJANGO_SUPERUSER_EMAIL: ${{secrets.DJANGO_SUPERUSER_EMAIL}}
+          DJANGO_SUPERUSER_PASSWORD: ${{secrets.DJANGO_SUPERUSER_PASSWORD}}
