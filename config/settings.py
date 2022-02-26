@@ -13,11 +13,6 @@ ALLOWED_HOSTS.extend(
     )
 )
 
-MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -30,7 +25,7 @@ DATABASES = {
 }
 
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 LOGGING = {
@@ -38,14 +33,14 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': ('%(asctime)s [%(process)d] [%(levelname)s] '
-                       'pathname=%(pathname)s lineno=%(lineno)s '
-                       'funcname=%(funcName)s %(message)s'),
-            'datefmt': '%Y-%m-%d %H:%M:%S'
+            'format': (
+                '%(asctime)s [%(process)d] [%(levelname)s] '
+                'pathname=%(pathname)s lineno=%(lineno)s '
+                'funcname=%(funcName)s %(message)s'
+            ),
+            'datefmt': '%Y-%m-%d %H:%M:%S',
         },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        }
+        'simple': {'format': '%(levelname)s %(message)s'},
     },
     'handlers': {
         'null': {
@@ -55,8 +50,8 @@ LOGGING = {
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         'django': {
@@ -69,5 +64,5 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-    }
+    },
 }
