@@ -11,4 +11,4 @@ RUN apk update \
 
 COPY . .
 
-CMD [ "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:$PORT" ]
+CMD gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
